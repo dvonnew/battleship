@@ -24,8 +24,8 @@ describe('Gameboard goes brr', ()=>{
 
     test('Ship hit', ()=>{
         testBoard.placeShip(2, 'Carrier', 'x')
-        testBoard.receiveAttack(2)
-        expect(testBoard.fleet[0].beenHit.includes(2)).toBe(true)
+        testBoard.receiveAttack(3)
+        expect(testBoard.fleet[0].beenHit.includes(3)).toBe(true)
     })
 
     test('Ship has been placed', ()=>{

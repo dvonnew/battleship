@@ -27,12 +27,12 @@ class Gameboard {
     }
 
     attackShip(location){
-        this.fleet.forEach((boat)=>{
+        this.fleet.forEach(boat=>{
             if (!boat.position.includes(location)){
                 return
             }
             else{
-                boat.beenHit.push(location)
+                boat.hit(location)
             }
         })
     }

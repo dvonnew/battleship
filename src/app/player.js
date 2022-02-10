@@ -12,6 +12,15 @@ class Player {
         else{
             return
         }
+        gameboard.fleet.forEach(ship => {
+            if (!ship.isSunk()){
+                console.log(gameboard.fleet[0].beenHit)
+                return
+            }
+            else {
+                console.log(`${ship.name} sank`)
+            }
+        });
     }
 }
 
