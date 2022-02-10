@@ -14,7 +14,6 @@ describe('Gameboard goes brr', ()=>{
             arr.push({hasShip: false, isHit: false})
         }
         expect(testBoard.board.length).toEqual(100)
-        
     })
 
     test('Shots fired', ()=>{
@@ -26,6 +25,11 @@ describe('Gameboard goes brr', ()=>{
         testBoard.placeShip(2, 'Carrier', 'x')
         testBoard.receiveAttack(3)
         expect(testBoard.fleet[0].beenHit.includes(3)).toBe(true)
+    })
+
+    test('Ship has been placed', ()=>{
+        testBoard.placeShip(2, 'Carrier', 'x')
+        expect(testBoard.board[6].hasShip).toBe(true)
     })
 
     test('Ship has been placed', ()=>{
