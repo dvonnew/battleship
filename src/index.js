@@ -5,8 +5,8 @@ import {DOMcontroller} from './DOM/DOMscripts'
 class Battleship {
 
     constructor(){
-        this.player1 = new Player
-        this.player2 = new Player
+        this.player1 = new Player('player')
+        this.player2 = new Player('computer')
         this.DOMcontroller = new DOMcontroller(this.player1, this.player2)
     }
 

@@ -45,7 +45,7 @@ p{
     display: grid;
     grid-template-rows: repeat(var(--grid-rows),1fr);
     grid-template-columns: repeat(var(--grid-cols),1fr);
-    background-color: white;
+    background-color: rgb(198, 228, 255);
     border-color: black;
     border-width: 5px;
     border: black;
@@ -61,9 +61,9 @@ p{
 }
 
 .hit{
-    background-color: green;
+    background-color: rgb(179, 255, 179);
 }
 
 .ship-hit{
-    background-color: red;
+    background-color: rgb(253, 171, 171);
 }

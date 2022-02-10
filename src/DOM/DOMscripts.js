@@ -20,17 +20,17 @@ class DOMcontroller {
         player.gameboard.board.forEach((box,i) => {
             let div = document.createElement('div')
             div.dataset.index = i
-            gameboard.appendChild(div).classList.add('box', 'empty')
+            gameboard.appendChild(div).classList.add('box', 'empty', `${player.name}`)
         });
     }
 
     playerTurn(attackingPlayer, recievingPlayer){
-        const boxes = document.querySelectorAll('.box')
-        boxes.forEach(box => {
+        const boxes = document.querySelectorAll(`.${recievingPlayer.name}`)
+        boxes.forEach((box, i) => {
             box.addEventListener('click', ()=>{
-                attackingPlayer.turn(box.dataset.index, recievingPlayer.gameboard)
+                attackingPlayer.turn(i, recievingPlayer.gameboard)
                 box.classList.remove('empty')
-                if (recievingPlayer.gameboard.board[box.dataset.index].hasShip !== true){
+                if (recievingPlayer.gameboard.board[i].hasShip !== true){
                     box.classList.add('hit')
                 }
                 else{

@@ -1,7 +1,8 @@
 import {Gameboard} from './gameboard'
 
 class Player {
-    constructor (){
+    constructor (name){
+        this.name = name
         this.gameboard = new Gameboard
     }
 
@@ -12,14 +13,6 @@ class Player {
         else{
             return
         }
-        gameboard.fleet.forEach(ship => {
-            if (!ship.isSunk()){
-                return
-            }
-            else {
-                console.log(`${ship.name} sank`)
-            }
-        });
     }
 }
 

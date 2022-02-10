@@ -27,14 +27,22 @@ class Gameboard {
     }
 
     attackShip(location){
-        this.fleet.forEach(boat=>{
+        this.fleet.forEach((boat,i)=>{
             if (!boat.position.includes(location)){
                 return
             }
             else{
                 boat.hit(location)
+                if (!boat.isSunk()){
+                    return
+                }
+                else {
+                    this.fleet.slice(i,1)
+                    console.log(`${boat.name} sank`)
+                }
             }
         })
+
     }
 
     placeShip(location, shipName, axis){
