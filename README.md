@@ -29,3 +29,10 @@ Begin your app by creating the Ship factory function.
     - There are several options available for letting users place their ships. You can let them type coordinates for each ship, or investigate implementing drag and drop.
     - You can polish the intelligence of the computer player by having it try adjacent slots after getting a ‘hit’.
     - Optionally, create a 2 player option that lets users take turns by passing the device back and forth. If you’re going to go this route, make sure the game is playable on a mobile screen and implement a ‘pass device’ screen so that players don’t see each others boards!
+
+
+
+TODO
+- Edit homepage to have a start screen
+- Need to build computer logic: ship placement, and turns
+- Need to build user ship placement UI - iterate through ship types and place each ship on the board, be able to switch which axis you place ship on

@@ -96,6 +96,28 @@ class Gameboard {
             return true
         }
     }
+
+    computerShipPlacement(){
+        let axis = ['x','y']
+
+        let ships = Object.keys(this.ships)
+        let i =0
+
+        ships.forEach(ship =>{
+            while (true){
+                let randomLoc = Math.floor(Math.random()*99)
+                let randomAxis = Math.floor(Math.random()*2)
+                let locationArray = this.createLocationArray(randomLoc, ship, axis[randomAxis])
+
+                if (!this.checkPlacement(locationArray)){
+                    return true
+                }
+                else{
+                    this.placeShip(randomLoc, ship, axis[randomAxis])
+                }
+            }
+        })
+    }
 }
 
 export {Gameboard}

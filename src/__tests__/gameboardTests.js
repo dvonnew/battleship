@@ -51,4 +51,9 @@ describe('Gameboard goes brr', ()=>{
         testBoard.placeShip(2, 'Carrier', 'y')
         expect(testBoard.fleet[0].position.includes(12)).toBe(true)
     })
+
+    test('all ships placed',()=>{
+        testBoard.computerShipPlacement()
+        expect(testBoard.fleet.length).toBe(5)
+    })
 })
