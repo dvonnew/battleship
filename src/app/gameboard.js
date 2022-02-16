@@ -47,8 +47,8 @@ class Gameboard {
 
     placeShip(location, shipName, axis){
         let ship = new Ship(shipName, this.ships[shipName])
-        let locationArray = this.createLocationArray(location, ship, axis)
-            if (!this.checkPlacement(locationArray)){
+        let locationArray = this.createLocationArray(location, shipName, axis)
+            if (!this.isValidPlacement(locationArray)){
                 return
             }
             else{
@@ -60,62 +60,64 @@ class Gameboard {
         this.fleet.push(ship)
     }
 
-    createLocationArray(location, ship, axis){
+    createLocationArray(location, shipName, axis){
         const locationArray = []
-        if (axis === 'x'){
-            for(let i=0; i <ship.size; i++){
-                locationArray.push(location + i)
+        if (axis !== 'x'){
+            for(let i=0; i < this.ships[shipName];i++){
+                locationArray.push(location + i * 10)
             }
         }
         else{
-            for(let i=0; i < ship.size;i++){
-                locationArray.push(location + i * 10)
+            for(let i=0; i < this.ships[shipName];i++){
+                locationArray.push(location + i)
             }
         }
         return locationArray
     }
 
-    checkPlacement (locationArray){
+    isValidPlacement (locationArray){
+        
+        const wall = [9,19,29,39,49,59,69,79,89]
 
-        const wall = [9,19,29,39,49,59,69,79,89,99]
-
+        if (locationArray.length <=0){
+            return false
+        }
         if(locationArray.some((loc) => !this.board[loc])){
             return false
         }
-        else if (locationArray.some((loc)=>this.board[loc].hasShip)){
+        if (locationArray.some((loc)=>this.board[loc].hasShip)){
             return false
         }
-        else if (wall.some((num)=>{
-            return [num, num+1].every((combo)=>
-                locationArray.includes(combo))
-        })
-        ){
+        if (
+            wall.some((num)=>{
+                return [num, num+1].every((combo)=>locationArray.includes(combo))
+            })
+        )   {
             return false
         }
-        else{
-            return true
-        }
+        return true
     }
 
     computerShipPlacement(){
         let axis = ['x','y']
 
-        let ships = Object.keys(this.ships)
-        let i =0
+        let shipNames = Object.keys(this.ships)
 
-        ships.forEach(ship =>{
-            while (true){
-                let randomLoc = Math.floor(Math.random()*99)
-                let randomAxis = Math.floor(Math.random()*2)
-                let locationArray = this.createLocationArray(randomLoc, ship, axis[randomAxis])
+        shipNames.forEach(shipName =>{
+            let locationArray = []
+            let randomLoc =''
+            let randomAxis =''
 
-                if (!this.checkPlacement(locationArray)){
-                    return true
-                }
-                else{
-                    this.placeShip(randomLoc, ship, axis[randomAxis])
-                }
+            while (!this.isValidPlacement(locationArray)){
+                randomLoc = Math.floor(Math.random()*99)
+                randomAxis = Math.floor(Math.random()*2)
+                locationArray = this.createLocationArray(
+                    randomLoc, 
+                    shipName, 
+                    axis[randomAxis]
+                )
             }
+            this.placeShip(randomLoc, shipName, axis[randomAxis])
         })
     }
 }

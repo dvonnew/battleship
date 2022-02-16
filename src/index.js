@@ -11,8 +11,6 @@ class Battleship {
     }
 
     run(){
-        this.player2.gameboard.placeShip(2, 'Carrier', 'x')
-        this.player2.gameboard.placeShip(45, 'Submarine', 'y')
         this.DOMcontroller.runDOM(this.player1, this.player2)
         this.DOMcontroller.playerTurn(this.player1, this.player2)
     }

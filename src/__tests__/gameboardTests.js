@@ -34,7 +34,7 @@ describe('Gameboard goes brr', ()=>{
 
     test('Ship has been placed', ()=>{
         testBoard.placeShip(2, 'Carrier', 'x')
-        expect(testBoard.board[6].hasShip).toBe(true)
+        expect(testBoard.board[7].hasShip).toBe(true)
     })
 
     test('Ship has been placed', ()=>{
