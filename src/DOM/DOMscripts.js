@@ -6,14 +6,21 @@ class DOMcontroller {
         this.shipNames = Object.keys(shipTypes)
     }
 
-    runDOM (player1, player2) {
+    startDOM (player1, player2) {
         const startButton = document.getElementById('start')
 
         startButton.addEventListener('click', () =>{
             this.clearGameBox()
             this.createGameboard(player1)
-            this.createPlayerPlacementUI(player1)
+            this.createPlayerPlacementUI(player1, player2)
         })
+    }
+
+    startGame(player1, player2){
+        player2.gameboard.computerShipPlacement()
+        this.clearGameBox()
+        this.createGameboard(player1)
+        this.createGameboard(player2)
     }
     
     clearGameBox(){
@@ -36,37 +43,48 @@ class DOMcontroller {
             let div = document.createElement('div')
             div.dataset.index = i
             gameboard.appendChild(div).classList.add('box', 'empty', `${player.name}`)
+            if(player.name === 'player'){
+                if(box.hasShip){
+                        div.classList.add('has-ship')
+                    }
+            }
         });
     }
 
     playerTurn(attackingPlayer, recievingPlayer){
-        const boxes = document.querySelectorAll(`.${recievingPlayer.name}`)
-        boxes.forEach((box, i) => {
-            box.addEventListener('click', ()=>{
-                attackingPlayer.turn(i, recievingPlayer.gameboard)
-                box.classList.remove('empty')
-                if (recievingPlayer.gameboard.board[i].hasShip !== true){
-                    box.classList.add('hit')
-                }
-                else{
-                    box.classList.add('ship-hit')
-                }
+        if(attackingPlayer.name === 'computer'){
+            attackingPlayer.gameboard.computerTurn(recievingPlayer)
+        }
+        else{
+            const boxes = document.querySelectorAll(`.${recievingPlayer.name}`)
+            boxes.forEach((box, i) => {
+                box.addEventListener('click', ()=>{
+                    attackingPlayer.turn(i, recievingPlayer.gameboard)
+                    box.classList.remove('empty')
+                    console.log('shot')
+                    if (recievingPlayer.gameboard.board[i].hasShip !== true){
+                        box.classList.add('hit')
+                    }
+                    else{
+                        box.classList.add('ship-hit')
+                    }
+                })
             })
-        })
+        }
     }
 
-    createPlayerPlacementUI(player){
+    createPlayerPlacementUI(player, player2){
         this.createPlayerInputDOMElements()
         
         const boxes = document.querySelectorAll('.player')
         const playerInputDescription = document.querySelector('.player-input-description')
         const axisButtons = document.querySelectorAll('.axis-button')
 
-        let i =0
+        let i=0
 
         axisButtons.forEach(button=>{
             button.addEventListener('click', ()=>{
-                this.changeActiveAxis()
+                this.changeActiveAxis(button)
             })}
         )
 
@@ -92,6 +110,11 @@ class DOMcontroller {
                         }
                         else{
                             this.createPlayGameButton()
+                            let playButton = document.getElementById('play')
+                            
+                            playButton.addEventListener('click', ()=>{
+                                this.startGame(player, player2)
+                            })
                         }
                     }
                 })
@@ -147,15 +170,25 @@ class DOMcontroller {
         playerInputDescription.appendChild(playButton)
     }
 
-    changeActiveAxis(){
-        let activeAxis = document.querySelector('.active')
-        let inactiveAxis = document.querySelector('.inactive')
-    
-        inactiveAxis.classList.remove('inactive')
-        inactiveAxis.classList.add('acitve')
+    changeActiveAxis(button){
+        if (button.classList.contains('inactive')){
+            button.classList.add('active')
+            button.classList.remove('inactive')
+            if (button.value == 'x'){
+                let y = document.querySelector('.y')
+                y.classList.add('inactive')
+                y.classList.remove('active')
+            }
 
-        activeAxis.classList.remove('active')
-        activeAxis.classList.add('inactive')
+            else{
+                let x = document.querySelector('.x')
+                x.classList.remove('active')
+                x.classList.add('inactive')
+            }
+        }
+        else{
+            return
+        }
     }
 
     getAxis(){

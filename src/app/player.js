@@ -13,6 +13,17 @@ class Player {
         else{
             return
         }
+        this.winCheck(gameboard)
+        console.log(gameboard.fleet.length)
+    }
+
+    winCheck(gameboard){
+        if (gameboard.fleet.length > 0){
+            return
+        }
+        else{
+            console.log(`${this.name} Wins!`)
+        }
     }
 }
 

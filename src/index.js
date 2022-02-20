@@ -11,8 +11,7 @@ class Battleship {
     }
 
     run(){
-        this.DOMcontroller.runDOM(this.player1, this.player2)
-        this.DOMcontroller.playerTurn(this.player1, this.player2)
+        this.DOMcontroller.startDOM(this.player1, this.player2)
     }
 }
 

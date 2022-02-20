@@ -37,7 +37,7 @@ class Gameboard {
                     return
                 }
                 else {
-                    this.fleet.slice(i,1)
+                    this.fleet.splice(i,1)
                     console.log(`${boat.name} sank`)
                 }
             }
@@ -119,6 +119,32 @@ class Gameboard {
             }
             this.placeShip(randomLoc, shipName, axis[randomAxis])
         })
+    }
+
+    computerTurn(opponent){
+        const boxes = document.querySelectorAll('.player')
+
+        let randomLoc = Math.floor(Math.random()*99)
+
+        opponent.gameboard.receiveAttack(randomLoc)
+        
+        boxes[randomLoc].classList.remove('empty')
+        boxes[randomLoc].classList.add('hit')
+        if(opponent.gameboard.board[randomLoc].hasShip === true){
+            boxes[randomLoc].classList.add('ship-hit')
+            boxes[randomLoc].classList.remove('has-ship')
+        }
+        
+        this.winCheck(opponent.gameboard)
+    }
+
+    winCheck(gameboard){
+        if (gameboard.fleet.length > 0){
+            return
+        }
+        else{
+            console.log(`Computer Wins!`)
+        }
     }
 }
 
