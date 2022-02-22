@@ -16,11 +16,28 @@ class DOMcontroller {
         })
     }
 
-    startGame(player1, player2){
+    playGame(player1, player2){
         player2.gameboard.computerShipPlacement()
         this.clearGameBox()
         this.createGameboard(player1)
         this.createGameboard(player2)
+
+        let turn = true
+
+        while (true){
+            if(turn){
+                this.playerTurn(player1, player2)
+                this.displayWinner(player1, player2)
+            }
+            else{
+                this.playerTurn(player2, player1)
+                this.displayWinner(player2, player1)
+            }
+            if(player1.winCheck(player2.gameboard) || player2.winCheck(player1.gameboard)){
+                break
+            }
+            turn=!turn
+        }git 
     }
     
     clearGameBox(){
@@ -70,7 +87,26 @@ class DOMcontroller {
                     }
                 })
             })
+            return false
         }
+    }
+
+    displayWinner(player1, player2){
+        if(player1.winCheck(player2.gameboard)){
+            // do something
+        }
+        if(player2.winCheck(player1.gameboard)){
+            // do something
+        }
+        else{
+            return
+        }
+    }
+
+    createWinDisplay(player){
+        const winDisplay = document.createElement('div')
+
+        winDisplay.innerHTML = `${player} Wins`
     }
 
     createPlayerPlacementUI(player, player2){
@@ -113,7 +149,7 @@ class DOMcontroller {
                             let playButton = document.getElementById('play')
                             
                             playButton.addEventListener('click', ()=>{
-                                this.startGame(player, player2)
+                                this.playGame(player, player2)
                             })
                         }
                     }

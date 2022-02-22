@@ -134,17 +134,6 @@ class Gameboard {
             boxes[randomLoc].classList.add('ship-hit')
             boxes[randomLoc].classList.remove('has-ship')
         }
-        
-        this.winCheck(opponent.gameboard)
-    }
-
-    winCheck(gameboard){
-        if (gameboard.fleet.length > 0){
-            return
-        }
-        else{
-            console.log(`Computer Wins!`)
-        }
     }
 }
 

@@ -14,7 +14,6 @@ class Player {
             return
         }
         this.winCheck(gameboard)
-        console.log(gameboard.fleet.length)
     }
 
     winCheck(gameboard){
@@ -23,6 +22,7 @@ class Player {
         }
         else{
             console.log(`${this.name} Wins!`)
+            return true
         }
     }
 }
