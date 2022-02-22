@@ -93,10 +93,10 @@ class DOMcontroller {
 
     displayWinner(player1, player2){
         if(player1.winCheck(player2.gameboard)){
-            // do something
+            this.createWinDisplay(player1)
         }
         if(player2.winCheck(player1.gameboard)){
-            // do something
+            this.createWinDisplay(player2)
         }
         else{
             return
@@ -106,7 +106,7 @@ class DOMcontroller {
     createWinDisplay(player){
         const winDisplay = document.createElement('div')
 
-        winDisplay.innerHTML = `${player} Wins`
+        winDisplay.innerHTML = `${player.name} Wins`
     }
 
     createPlayerPlacementUI(player, player2){
