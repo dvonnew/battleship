@@ -22,22 +22,21 @@ class DOMcontroller {
         this.createGameboard(player1)
         this.createGameboard(player2)
 
-        let turn = true
+        let attacked = true
 
-        while (true){
-            if(turn){
+        while (attacked){
+            if(!attacked){
                 this.playerTurn(player1, player2)
-                this.displayWinner(player1, player2)
             }
             else{
                 this.playerTurn(player2, player1)
-                this.displayWinner(player2, player1)
             }
             if(player1.winCheck(player2.gameboard) || player2.winCheck(player1.gameboard)){
+                this.displayWinner(player1, player2)
                 break
             }
-            turn=!turn
-        }git 
+            attacked = true
+        } 
     }
     
     clearGameBox(){
@@ -52,7 +51,7 @@ class DOMcontroller {
         const gameboard = document.createElement('div')
 
         gameBox.appendChild(gameboard)
-        gameboard.className = 'gameboard'
+        gameboard.classList = `gameboard ${player.name}board`
 
         gameboard.style.setProperty('--grid-rows', 10)
         gameboard.style.setProperty('--grid-cols', 10)
@@ -70,7 +69,10 @@ class DOMcontroller {
 
     playerTurn(attackingPlayer, recievingPlayer){
         if(attackingPlayer.name === 'computer'){
-            attackingPlayer.gameboard.computerTurn(recievingPlayer)
+            setTimeout(function() {
+                attackingPlayer.gameboard.computerTurn(recievingPlayer)
+                return attacked = false
+            }, 3000)
         }
         else{
             const boxes = document.querySelectorAll(`.${recievingPlayer.name}`)
@@ -87,16 +89,28 @@ class DOMcontroller {
                     }
                 })
             })
-            return false
+            return attacked = true
         }
     }
 
     displayWinner(player1, player2){
         if(player1.winCheck(player2.gameboard)){
-            this.createWinDisplay(player1)
+            let winDisplay = this.createWinDisplay(player1)
+            const playerboard = document.querySelector('.playerboard')
+            while (playerboard.hasChildNodes()){
+                playerboard.remove(playerboard.lastchild)
+            }
+            playerboard.appendChild(winDisplay)
+            return false
         }
         if(player2.winCheck(player1.gameboard)){
-            this.createWinDisplay(player2)
+            let winDisplay = this.createWinDisplay(player1)
+            const computerboard = document.querySelector('.computerboard')
+            while (computerboard.hasChildNodes()){
+                computerboard.remove(computerboard.lastchild)
+            }
+            computerboard.appendChild(winDisplay)
+            return false
         }
         else{
             return
@@ -107,6 +121,8 @@ class DOMcontroller {
         const winDisplay = document.createElement('div')
 
         winDisplay.innerHTML = `${player.name} Wins`
+
+        return winDisplay
     }
 
     createPlayerPlacementUI(player, player2){
