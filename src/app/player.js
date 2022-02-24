@@ -9,16 +9,14 @@ class Player {
     turn (location, gameboard){
         if (gameboard.board[location].isHit !== true){
             gameboard.receiveAttack(location)
-        }
-        else{
+            this.winCheck(gameboard)
             return
         }
-        this.winCheck(gameboard)
     }
 
     winCheck(gameboard){
         if (gameboard.fleet.length > 0){
-            return
+            return false
         }
         else{
             console.log(`${this.name} Wins!`)
