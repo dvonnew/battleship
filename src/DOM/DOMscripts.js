@@ -2,7 +2,7 @@ import {shipTypes} from '../app/shipTypes'
 
 class DOMcontroller {
 
-    constructor (){
+    constructor() {
         this.shipNames = Object.keys(shipTypes)
     }
 
@@ -19,24 +19,8 @@ class DOMcontroller {
     playGame(player1, player2){
         player2.gameboard.computerShipPlacement()
         this.clearGameBox()
-        this.createGameboard(player1)
-        this.createGameboard(player2)
-
-        let attacked = true
-
-        while (attacked){
-            if(!attacked){
-                this.playerTurn(player1, player2)
-            }
-            else{
-                this.playerTurn(player2, player1)
-            }
-            if(player1.winCheck(player2.gameboard) || player2.winCheck(player1.gameboard)){
-                this.displayWinner(player1, player2)
-                break
-            }
-            attacked = true
-        } 
+        this.createGameboard(player1, player2) // only need to call this once
+        this.createGameboard(player2, player1)
     }
     
     clearGameBox(){
@@ -46,7 +30,7 @@ class DOMcontroller {
         }
     }
 
-    createGameboard(player){
+    createGameboard(player, otherPlayer){
         const gameBox = document.getElementById('game-box')
         const gameboard = document.createElement('div')
 
@@ -63,34 +47,25 @@ class DOMcontroller {
                 if(box.hasShip){
                         div.classList.add('has-ship')
                     }
-            }
-        });
-    }
-
-    playerTurn(attackingPlayer, recievingPlayer){
-        if(attackingPlayer.name === 'computer'){
-            setTimeout(function() {
-                attackingPlayer.gameboard.computerTurn(recievingPlayer)
-                return attacked = false
-            }, 3000)
-        }
-        else{
-            const boxes = document.querySelectorAll(`.${recievingPlayer.name}`)
-            boxes.forEach((box, i) => {
-                box.addEventListener('click', ()=>{
-                    attackingPlayer.turn(i, recievingPlayer.gameboard)
-                    box.classList.remove('empty')
+            } else {
+                div.addEventListener('click', ()=>{
+                    player.turn(i, otherPlayer.gameboard)
+                    div.classList.remove('empty')
                     console.log('shot')
-                    if (recievingPlayer.gameboard.board[i].hasShip !== true){
-                        box.classList.add('hit')
+                    if (otherPlayer.gameboard.board[i].hasShip !== true){
+                        div.classList.add('hit')
                     }
                     else{
-                        box.classList.add('ship-hit')
+                        div.classList.add('ship-hit')
+                    }
+                    if(player.winCheck(otherPlayer.gameboard) || otherPlayer.winCheck(player.gameboard)){
+                        this.displayWinner(player, otherPlayer)
+                    } else {
+                        player.gameboard.computerTurn(player, otherPlayer);
                     }
                 })
-            })
-            return attacked = true
-        }
+            }
+        });
     }
 
     displayWinner(player1, player2){
