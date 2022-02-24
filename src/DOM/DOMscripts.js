@@ -49,10 +49,10 @@ class DOMcontroller {
                     }
             } else {
                 div.addEventListener('click', ()=>{
-                    player.turn(i, otherPlayer.gameboard)
+                    player.turn(i, player.gameboard)
                     div.classList.remove('empty')
                     console.log('shot')
-                    if (otherPlayer.gameboard.board[i].hasShip !== true){
+                    if (player.gameboard.board[i].hasShip !== true){
                         div.classList.add('hit')
                     }
                     else{
@@ -61,7 +61,14 @@ class DOMcontroller {
                     if(player.winCheck(otherPlayer.gameboard) || otherPlayer.winCheck(player.gameboard)){
                         this.displayWinner(player, otherPlayer)
                     } else {
-                        player.gameboard.computerTurn(player, otherPlayer);
+                        setTimeout(() =>{
+                            if(!player.gameboard.computerTurn(player, otherPlayer)){
+                                player.gameboard.computerTurn(player, otherPlayer)
+                            }
+                            else{
+                                player.gameboard.computerTurn(player, otherPlayer)
+                            }
+                        }, 2000)
                     }
                 })
             }
@@ -76,7 +83,6 @@ class DOMcontroller {
                 playerboard.remove(playerboard.lastchild)
             }
             playerboard.appendChild(winDisplay)
-            return false
         }
         if(player2.winCheck(player1.gameboard)){
             let winDisplay = this.createWinDisplay(player1)
@@ -85,10 +91,6 @@ class DOMcontroller {
                 computerboard.remove(computerboard.lastchild)
             }
             computerboard.appendChild(winDisplay)
-            return false
-        }
-        else{
-            return
         }
     }
 
