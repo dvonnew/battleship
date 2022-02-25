@@ -62,12 +62,7 @@ class DOMcontroller {
                         this.displayWinner(player, otherPlayer)
                     } else {
                         setTimeout(() =>{
-                            if(!player.gameboard.computerTurn(player, otherPlayer)){
-                                player.gameboard.computerTurn(player, otherPlayer)
-                            }
-                            else{
-                                player.gameboard.computerTurn(player, otherPlayer)
-                            }
+                            player.gameboard.computerTurn(player, otherPlayer)
                         }, 2000)
                     }
                 })
@@ -80,15 +75,15 @@ class DOMcontroller {
             let winDisplay = this.createWinDisplay(player1)
             const playerboard = document.querySelector('.playerboard')
             while (playerboard.hasChildNodes()){
-                playerboard.remove(playerboard.lastchild)
+                playerboard.remove(playerboard.lastChild)
             }
             playerboard.appendChild(winDisplay)
         }
-        if(player2.winCheck(player1.gameboard)){
-            let winDisplay = this.createWinDisplay(player1)
+        else{
+            let winDisplay = this.createWinDisplay(player2)
             const computerboard = document.querySelector('.computerboard')
             while (computerboard.hasChildNodes()){
-                computerboard.remove(computerboard.lastchild)
+                computerboard.remove(computerboard.lastChild)
             }
             computerboard.appendChild(winDisplay)
         }
